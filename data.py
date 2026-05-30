@@ -24,3 +24,5 @@ test_set = [(OP.order_button_header, 'Екатерина', 'Кузнецова',
               '+79876543210')]
 
 
+class Urls:
+    main_rage_url = "https://qa-scooter.education-services.ru/"
