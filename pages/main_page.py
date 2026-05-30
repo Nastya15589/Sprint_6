@@ -1,10 +1,11 @@
+import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
+from pages.base_page import BasePage
 
 
-class MainPage:
-    questions_about_important = [By.XPATH, ".//div[@class='Home_SubHeader__zwi_E' and text() = 'Вопросы о важном']"]
+class MainPage(BasePage):
+    questions_about_important = (By.XPATH, ".//div[@class='Home_SubHeader__zwi_E' and text() = 'Вопросы о важном']")
     first_question = (By.XPATH, ".//div[text()='Сколько это стоит? И как оплатить?']")
     first_question_answer = (By.XPATH, ".//div[@id='accordion__panel-0']/p")
     second_question = (By.XPATH, ".//div[text()='Хочу сразу несколько самокатов! Так можно?']")
@@ -21,22 +22,19 @@ class MainPage:
     seventh_question_answer = (By.XPATH, ".//div[@id='accordion__panel-6']/p")
     eighth_question = (By.XPATH, ".//div[@id='accordion__heading-7']")
     eighth_question_answer = (By.XPATH, ".//div[@id='accordion__panel-7']/p")
+    accept_cookies = (By.XPATH, ".//button[@id='rcc-confirm-button']")
 
-
-    def __init__(self,driver):
-        self.driver = driver
-
+    @allure.step('Скроллим страницу до Вопросы о важном')
     def scroll_to_questions_about_important(self):
-        element = self.driver.find_element(*self.questions_about_important)
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        self.scroll_to_element(self.questions_about_important)
 
-    def click_question(self, locator):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(locator)).click()
+    @allure.step('Нажимаем каждый вопрос')
+    def click_questions(self, locator):
+        self.click_question(locator)
 
+    @allure.step('Находим и получаем текст каждого вопроса')
+    def find_text_question(self, locator):
+        return self.get_text(locator)
 
-    def find_text_question(self, locator_text):
-        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator_text))
-        actual_result = element.text
-        return actual_result
 
 
