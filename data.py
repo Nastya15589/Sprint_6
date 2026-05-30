@@ -1,0 +1,28 @@
+from pages.main_page import MainPage as MP
+from pages.order_page import OrderPage as OP
+
+
+test_data = [(MP.first_question, MP.first_question_answer, 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.'),
+             (MP.second_question, MP.second_question_answer, 'Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, '
+                                  'можете просто сделать несколько заказов — один за другим.'),
+             (MP.third_question, MP.third_question_answer, 'Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. '
+                           'Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. '
+                           'Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.'),
+             (MP.fourth_question, MP.fourth_question_answer, 'Только начиная с завтрашнего дня. Но скоро станем расторопнее.'),
+             (MP.fifth_question, MP.fifth_question_answer, 'Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.'),
+             (MP.sixth_question, MP.sixth_question_answer, 'Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете '
+                           'кататься без передышек и во сне. Зарядка не понадобится.'),
+             (MP.seventh_question, MP.seventh_question_answer, 'Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. '
+                           'Все же свои.'),
+             (MP.eighth_question, MP.eighth_question_answer, 'Да, обязательно. Всем самокатов! И Москве, и Московской области.')]
+
+
+test_set = [(OP.order_button_header, 'Екатерина', 'Кузнецова', 'Плехановская 12',
+              '+79123456789'), (OP.order_button_main, 'Александр', 'Соколов', 'Ленина 45',
+                                                  '+79651234567'),
+            (OP.order_button_header, 'Ольга', 'Михайлова', 'Коммунистическая 8',
+              '+79876543210')]
+
+
+class Urls:
+    main_rage_url = "https://qa-scooter.education-services.ru/"
