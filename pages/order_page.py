@@ -1,11 +1,14 @@
 from datetime import datetime
+
+import allure
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
+from pages.base_page import BasePage
 
 
-class OrderPage:
+class OrderPage(BasePage):
     order_button_header = (By.XPATH, ".//button[@class='Button_Button__ra12g']")
     order_button_main = (By.XPATH, ".//div[@class='Home_FinishButton__1_cWm']/button")
     name_field = (By.XPATH, ".//input[@placeholder='* Имя']")
@@ -26,100 +29,90 @@ class OrderPage:
     main_page_title = (By.XPATH, ".//div[@class='Home_Header__iJKdX']")
     accept_cookies = (By.XPATH, ".//button[@id='rcc-confirm-button']")
 
-
-    def __init__(self,driver):
-        self.driver = driver
-
+    @allure.step('Нажать кнопку Заказать')
     def click_order_button(self, locator):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(locator)).click()
+        self.click_element(locator)
 
+    @allure.step('Нажать кнопку Принять cookie')
     def click_accept_cookies_button(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.accept_cookies)).click()
+        self.click_element(self.accept_cookies)
 
+    @allure.step('Ввести имя')
     def set_name(self, name):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.name_field)).send_keys(name)
+        self.set_value(self.name_field, name)
 
+    @allure.step('Ввести фамилию')
     def set_last_name(self, last_name):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.last_name_field)).send_keys(
-            last_name)
+        self.set_value(self.last_name_field, last_name)
 
+    @allure.step('Ввести адрес')
     def set_address(self, address):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.address_field)).send_keys(
-            address)
+        self.set_value(self.address_field, address)
 
+    @allure.step('Нажать на dropdown станций метро')
     def click_metro_station(self):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.metro_station)).click()
+        self.click_element(self.metro_station)
 
-    def select_metro_station_first(self ):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.metro_station_first)).click()
+    @allure.step('Выбрать станцию метро')
+    def select_metro_station_first(self):
+        self.click_element(self.metro_station_first)
 
+    @allure.step('Ввести номер телефона')
     def set_number(self, number):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.number_field)).send_keys(number)
+        self.set_value(self.number_field, number)
 
+    @allure.step('Нажать кнопку продолжить')
     def click_continue_button(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.continue_button)).click()
+        self.click_element(self.continue_button)
 
+    @allure.step('Выбрать дату доставки')
     def set_delivery_date(self):
         today = datetime.now().date()
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.delivery_date)).send_keys(str(today))
+        self.set_value(self.delivery_date, str(today))
 
+    @allure.step('Нажать на dropdown срока аренды')
     def click_rental_period(self):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.rental_period)).click()
+        self.click_element(self.rental_period)
 
+    @allure.step('Выбрать срок аренды')
     def select_rental_period_day(self):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.rental_period_day)).click()
+        self.click_element(self.rental_period_day)
 
+    @allure.step('Нажать на кнопку заказать')
     def place_order_button(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.order_button)).click()
+        self.click_element(self.order_button)
 
+    @allure.step('Нажать на кнопку Подтверждения заказа')
     def click_confirmation_button(self):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.confirmation_button)).click()
+        self.click_element(self.confirmation_button)
 
+    @allure.step('Отображение успешного статуса заказа')
     def check_successful_order_status(self):
         try:
-            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.successful_order_status))
+            self.find_element(self.successful_order_status)
             return True
 
         except TimeoutException:
             return False
 
+    @allure.step('Нажать на логотип самоката')
     def click_logo_scooter(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.logo_scooter)).click()
+        self.click_element(self.logo_scooter)
 
+    @allure.step('Нажать на логотип яндекса')
     def click_logo_yandex(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.logo_yandex)).click()
+        self.click_element(self.logo_yandex)
 
-    def check_url(self, expected_url):
-        actual_url = self.driver.current_url
-        assert expected_url == actual_url
-
+    @allure.step('Проверить отображение заголовка на главной странице')
     def check_appearance_main_page_title(self):
         try:
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(self.main_page_title))
+            self.find_element(self.main_page_title)
             return True
 
         except TimeoutException:
             return False
 
-    def switch_new_window(self, main_window):
 
-        WebDriverWait(self.driver, 10).until(lambda d: len(d.window_handles) > 1)
-
-
-        for window in self.driver.window_handles:
-            if window != main_window:
-                self.driver.switch_to.window(window)
-                break
-
-
-        WebDriverWait(self.driver, 10).until(
-            lambda d: d.execute_script("return document.readyState") == "complete"
-        )
-
-
-        WebDriverWait(self.driver, 10).until(
-            lambda d: d.current_url != "about:blank"
-        )
 
 
     def set_client_data(self, name, last_name, address, number):
