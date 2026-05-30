@@ -11,7 +11,8 @@ class TestOrderPage:
     @pytest.mark.parametrize('button_locator,name,last_name,address,number', d.test_set)
 
     def test_order_scooter_success(self, driver,button_locator, name,last_name,address,number):
-        driver.get("https://qa-scooter.education-services.ru/")
+
+        driver.get(d.Urls.main_rage_url)
         order_page = OrderPage(driver)
         order_page.click_accept_cookies_button()
         order_page.click_order_button(button_locator)
@@ -24,7 +25,7 @@ class TestOrderPage:
         order_page.click_logo_scooter()
         assert order_page.check_appearance_main_page_title()
 
-        main_window = driver.current_window_handle
+        main_window = order_page.current_window()
         order_page.click_logo_yandex()
         order_page.switch_new_window(main_window)
-        assert "yandex.kz" in driver.current_url
+        assert "yandex.kz" in order_page.check_url()
